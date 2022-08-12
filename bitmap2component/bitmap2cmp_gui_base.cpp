@@ -179,7 +179,7 @@ BM2CMP_FRAME_BASE::BM2CMP_FRAME_BASE( wxWindow* parent, wxWindowID id, const wxS
 
 	brightSizer->Add( sbSizer2, 0, wxALL|wxEXPAND, 5 );
 
-	wxString m_rbPCBLayerChoices[] = { _("Front silk screen"), _("Front solder mask"), _("User layer Eco1"), _("User layer Eco2") };
+	wxString m_rbPCBLayerChoices[] = { _("Front silk screen"), _("Front solder mask"), _("User layer Eco1"), _("User layer Eco2"), _("Front copper") };
 	int m_rbPCBLayerNChoices = sizeof( m_rbPCBLayerChoices ) / sizeof( wxString );
 	m_rbPCBLayer = new wxRadioBox( m_panelRight, wxID_ANY, _("Board Layer for Outline"), wxDefaultPosition, wxDefaultSize, m_rbPCBLayerNChoices, m_rbPCBLayerChoices, 1, wxRA_SPECIFY_COLS );
 	m_rbPCBLayer->SetSelection( 1 );
