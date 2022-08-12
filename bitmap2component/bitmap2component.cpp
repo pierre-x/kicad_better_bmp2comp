@@ -56,7 +56,8 @@ static void BezierToPolyline( std::vector <potrace_dpoint_t>& aCornersBuffer,
                               potrace_dpoint_t                p1,
                               potrace_dpoint_t                p2,
                               potrace_dpoint_t                p3,
-                              potrace_dpoint_t                p4 );
+                              potrace_dpoint_t                p4,
+                              double                          delta );
 
 
 BITMAPCONV_INFO::BITMAPCONV_INFO( std::string& aData ):
@@ -180,7 +181,14 @@ const char* BITMAPCONV_INFO::getBoardLayerName( BMP2CMP_MOD_LAYER aChoice )
         break;
 
     case MOD_LYR_FSILKS:
-    default:    // case MOD_LYR_FSILKS only unless there is a bug
+        layerName = "F.SilkS";
+        break;
+
+    case MOD_LYR_FCOPPER:
+        layerName = "F.Copper";
+        break;
+
+    default:
         break;
     }
 
@@ -462,7 +470,7 @@ void BITMAPCONV_INFO::createOutputData( BMP2CMP_MOD_LAYER aModLayer )
                 break;
 
             case POTRACE_CURVETO:
-                BezierToPolyline( cornersBuffer, startpoint, c[i][0], c[i][1], c[i][2] );
+                BezierToPolyline( cornersBuffer, startpoint, c[i][0], c[i][1], c[i][2], 0.25 );
                 startpoint = c[i][2];
                 break;
             }
@@ -545,9 +553,10 @@ void BezierToPolyline( std::vector <potrace_dpoint_t>& aCornersBuffer,
                        potrace_dpoint_t                p1,
                        potrace_dpoint_t                p2,
                        potrace_dpoint_t                p3,
-                       potrace_dpoint_t                p4 )
+                       potrace_dpoint_t                p4,
+                       double delta )
 {
-    double dd0, dd1, dd, delta, e2, epsilon, t;
+    double dd0, dd1, dd, e2, epsilon, t;
 
     // p1 = starting point
 
@@ -555,8 +564,6 @@ void BezierToPolyline( std::vector <potrace_dpoint_t>& aCornersBuffer,
      *  size, epsilon, is determined on the fly so that the distance
      *  between the true curve and its approximation does not exceed the
      *  desired accuracy delta. */
-
-    delta = 0.25; /* desired accuracy, in pixels */
 
     /* let dd = maximal value of 2nd derivative over curve - this must
      *  occur at an endpoint. */
