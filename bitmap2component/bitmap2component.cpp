@@ -185,7 +185,7 @@ const char* BITMAPCONV_INFO::getBoardLayerName( BMP2CMP_MOD_LAYER aChoice )
         break;
 
     case MOD_LYR_FCOPPER:
-        layerName = "F.Copper";
+        layerName = "F.Cu";
         break;
 
     default:
